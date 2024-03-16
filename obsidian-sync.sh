@@ -1,4 +1,5 @@
 #!/bin/bash
+export DISPLAY=:0
 
 # Read the configuration file
 config_file="$HOME/.config/obsidian_sync.cfg"
@@ -29,13 +30,13 @@ resync_ran=false
 output=$(rclone bisync "$obsidian_folder" "$google_drive")
 
 # If the command failed and the failure includes the term resync, rerun with --resync and set resync_ran to true
-if [ $? -ne 0 ] && [[ $output == *"resync"* ]]; then
+if [[ $? -ne 0 ]] && [[ $output == *"resync"* ]]; then
     output=$(rclone bisync "$obsidian_folder" "$google_drive" --resync)
     resync_ran=true
 fi
 
 # If the command still failed, send a notification
-if [ $? -ne 0 ]; then
+if [[ $? -ne 0 ]]; then
     if $resync_ran; then
         echo "$output"
         notify-send "Obsidian Sync Error" "An error occurred during synchronization after resync was run:\n$output"
