@@ -1,4 +1,5 @@
 #!/bin/bash
+# Set display variable to allow notifications.
 export DISPLAY=:0
 
 # Read the configuration file
